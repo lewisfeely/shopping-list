@@ -1,26 +1,49 @@
 import { useState } from "react";
 
 const Adder = ({ setList }) => {
-  const [input, setinput] = useState("");
+  const [formData, setFormData] = useState({
+    item: "",
+    quantity: 0,
+  });
 
+  console.log(formData, "this is formData");
   const handleSubmit = (e) => {
     e.preventDefault();
-    setinput((currList) => {
-      const newItem = { item: input, quantity: input };
-      const copyList = [...currList];
+    setList((currformData) => {
+      console.log(currformData, "<--this is curr");
+      const newItem = { item: formData.item, quantity: formData.quantity };
+      console.log(newItem);
+      const copyList = [...currformData];
       copyList.push(newItem);
       return copyList;
     });
-    setinput("");
+    setFormData({
+      item: "",
+      quantity: 0,
+    });
   };
   const handleChange = (e) => {
-    setinput(e.target.value);
+    const { name, value } = e.target;
+    console.log(e.target);
+    setFormData({ ...formData, [name]: value });
   };
   return (
     <>
       <form onSubmit={handleSubmit}>
-        <input type="text" required />
-        <input type="number" required />
+        <input
+          type="text"
+          name="item"
+          required
+          value={formData.item}
+          onChange={handleChange}
+        />
+        <input
+          type="number"
+          name="quantity"
+          required
+          value={formData.quantity}
+          onChange={handleChange}
+        />
         <button type="submit">submit</button>
       </form>
     </>
